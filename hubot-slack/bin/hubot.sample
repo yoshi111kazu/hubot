@@ -1,0 +1,43 @@
+#!/bin/sh
+
+set -e
+
+ARG1=$1
+
+export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+export HUBOT_CHATWORK_TOKEN=""
+export HUBOT_CHATWORK_ROOMS=""
+export HUBOT_CHATWORK_API_RATE="900"
+export HUBOT_UL_API_KEY=
+export HUBOT_CG_API_KEY=
+export HUBOT_D_API_KEY=
+
+#exec node_modules/.bin/hubot -a chatwork -n mohi
+
+start() {
+        forever start -c coffee node_modules/.bin/hubot -a chatwork -n mohi
+}
+stop () {
+        forever stop -c coffee node_modules/.bin/hubot
+}
+status() {
+        forever list
+}
+restart() {
+        forever restartall
+}
+
+case "$ARG1" in
+        "stop" )
+                stop
+                ;;
+        "restart" )
+                restart
+                ;;
+        "start" )
+                start
+                ;;
+        "status" )
+                status
+                ;;
+esac
